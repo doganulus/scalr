@@ -95,39 +95,11 @@ struct product<D1, Dn...> {
   using type = typename product<D1, typename product<Dn...>::type>::type;
 };
 
-template <class D>
-struct inverse {
-  using U = typename D::signature;
-  using type = typename make<-U::t, -U::l, -U::m, -U::i, -U::k, -U::n, -U::j,
-                             -U::r>::type;
-};
-
-template <class D, uintmax_t k>
-struct uexponent {
-  using type = typename product<typename uexponent<D, k - 1>::type, D>::type;
-};
-
-template <class D>
-struct uexponent<D, 0> {
-  using type = dimensionless;
-};
-
-template <class D, intmax_t k, bool>
-struct exponent_impl {};
-
-template <class D, intmax_t k>
-struct exponent_impl<D, k, true> {
-  using type = typename inverse<typename uexponent<D, -k>::type>::type;
-};
-
-template <class D, intmax_t k>
-struct exponent_impl<D, k, false> {
-  using type = typename uexponent<D, k>::type;
-};
-
 template <class D, intmax_t k>
 struct exponent {
-  using type = typename exponent_impl<D, k, (k < 0)>::type;
+  using U = typename D::signature;
+  using type = typename make<k * U::t, k * U::l, k * U::m, k * U::i, k * U::k,
+                             k * U::n, k * U::j, k * U::r>::type;
 };
 
 }  // namespace dimension
@@ -140,7 +112,7 @@ template <class... D>
 using dimension_product_t = typename dimension::product<D...>::type;
 
 template <class D>
-using dimension_inverse_t = typename dimension::inverse<D>::type;
+using dimension_inverse_t = typename dimension::exponent<D, -1>::type;
 
 template <class D, intmax_t k>
 using dimension_exponent_t = typename dimension::exponent<D, k>::type;

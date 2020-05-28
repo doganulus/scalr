@@ -1,0 +1,20 @@
+---
+BasedOnStyle: Google
+Language: Cpp
+
+
+DerivePointerAlignment: false
+PointerAlignment: Left
+
+IncludeBlocks: Regroup
+IncludeCategories:
+- Regex: '^<[^/]*>'
+  Priority: 1
+- Regex: '^<.*/.*'
+  Priority: 2
+- Regex: '^\"scalr'
+  Priority: 3
+- Regex: '^\"third_party'
+  Priority: 4
+
+...

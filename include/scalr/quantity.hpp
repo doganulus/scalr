@@ -426,3 +426,10 @@ constexpr quantity_sum_t<quantity<T1, U1>, quantity<T2, U2>> operator%(
 }
 
 }  // namespace scalr
+
+template <class Dimension1, class Ratio1, class Dimension2, class Ratio2>
+struct std::common_type<scalr::quantity<Dimension1, Ratio1>,
+                        scalr::quantity<Dimension2, Ratio2>> {
+  using type = scalr::quantity_sum_t<scalr::quantity<Dimension1, Ratio1>,
+                                     scalr::quantity<Dimension2, Ratio2>>;
+};

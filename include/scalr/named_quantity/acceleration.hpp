@@ -21,6 +21,12 @@ struct acceleration_dimension {
   using signature = system_signature<-2, 1, 0, 0, 0, 0, 0, 0>;
 };
 
+template <typename Ratio>
+struct acceleration_unit {
+  using dimension = acceleration_dimension;
+  using ratio = Ratio;
+};
+
 template <typename Rep, typename Ratio = std::ratio<1>>
 using acceleration = quantity<Rep, make_unit_t<acceleration_dimension, Ratio>>;
 
@@ -39,6 +45,11 @@ namespace unit {
 struct meters_per_second_squared {
   using dimension = acceleration_dimension;
   using ratio = std::ratio<1>;
+};
+
+template <typename Ratio>
+struct make<acceleration_dimension, Ratio> {
+  using type = scalr::acceleration_unit<Ratio>;
 };
 
 template <>
@@ -62,3 +73,16 @@ constexpr meters_per_second_squared operator""_mps2(unsigned long long value) {
 }  // namespace literals
 
 }  // namespace scalr
+
+// IO Helpers
+#if defined(ENABLE_SCALR_IO)
+
+template <typename T>
+std::ostream& operator<<(
+    std::ostream& os,
+    const scalr::quantity<T, scalr::unit::meters_per_second_squared>& q) {
+  os << q.value() << "mps2";
+  return os;
+}
+
+#endif

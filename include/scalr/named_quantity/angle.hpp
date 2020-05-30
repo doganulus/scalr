@@ -21,6 +21,12 @@ struct angle_dimension {
   using signature = system_signature<0, -1, 0, 0, 0, 0, 0, 1>;
 };
 
+template <typename Ratio>
+struct angle_unit {
+  using dimension = angle_dimension;
+  using ratio = Ratio;
+};
+
 template <typename Rep, typename Ratio = std::ratio<1>>
 using angle = quantity<Rep, make_unit_t<angle_dimension, Ratio>>;
 
@@ -54,6 +60,11 @@ struct gradians {
 struct degrees {
   using dimension = angle_dimension;
   using ratio = std::ratio<1, 360>;
+};
+
+template <typename Ratio>
+struct make<angle_dimension, Ratio> {
+  using type = scalr::angle_unit<Ratio>;
 };
 
 template <>

@@ -21,6 +21,12 @@ struct speed_dimension {
   using signature = system_signature<-1, 1, 0, 0, 0, 0, 0, 0>;
 };
 
+template <typename Ratio>
+struct speed_unit {
+  using dimension = speed_dimension;
+  using ratio = Ratio;
+};
+
 template <typename Rep, typename Ratio = std::ratio<1>>
 using speed = quantity<Rep, make_unit_t<speed_dimension, Ratio>>;
 
@@ -51,8 +57,13 @@ struct miles_per_hour {
   using ratio = std::ratio<1397, 3125>;
 };
 
+template <typename Ratio>
+struct make<speed_dimension, Ratio> {
+  using type = scalr::speed_unit<Ratio>;
+};
+
 template <>
-struct make<speed_dimension, std::tera> {
+struct make<speed_dimension, std::ratio<1>> {
   using type = meters_per_second;
 };
 
@@ -97,3 +108,32 @@ constexpr meters_per_second operator""_mps(unsigned long long value) {
 }  // namespace literals
 
 }  // namespace scalr
+
+// IO Helpers
+#if defined(ENABLE_SCALR_IO)
+
+template <typename T>
+std::ostream& operator<<(
+    std::ostream& os,
+    const scalr::quantity<T, scalr::unit::meters_per_second>& q) {
+  os << q.value() << "mps";
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(
+    std::ostream& os,
+    const scalr::quantity<T, scalr::unit::kilometers_per_hour>& q) {
+  os << q.value() << "kph";
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(
+    std::ostream& os,
+    const scalr::quantity<T, scalr::unit::miles_per_hour>& q) {
+  os << q.value() << "mph";
+  return os;
+}
+
+#endif

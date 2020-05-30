@@ -10,6 +10,10 @@
 #pragma once
 #include <ratio>
 
+#if defined(ENABLE_SCALR_IO)
+#include <ostream>
+#endif
+
 #include "scalr/dimension.hpp"
 #include "scalr/quantity.hpp"
 #include "scalr/unit.hpp"
@@ -19,6 +23,12 @@ namespace scalr {
 struct time_dimension {
   // 7 Base SI dimensions + angle dimension
   using signature = system_signature<1, 0, 0, 0, 0, 0, 0, 0>;
+};
+
+template <typename Ratio>
+struct time_unit {
+  using dimension = time_dimension;
+  using ratio = Ratio;
 };
 
 template <typename Rep, typename Ratio = std::ratio<1>>
@@ -68,6 +78,11 @@ struct nanoseconds {
 struct picoseconds {
   using dimension = time_dimension;
   using ratio = std::pico;
+};
+
+template <typename Ratio>
+struct make<time_dimension, Ratio> {
+  using type = scalr::time_unit<Ratio>;
 };
 
 template <>
@@ -165,3 +180,57 @@ constexpr picoseconds operator""_ps(unsigned long long value) {
 }  // namespace literals
 
 }  // namespace scalr
+
+// IO Helpers
+#if defined(ENABLE_SCALR_IO)
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os,
+                         const scalr::quantity<T, scalr::unit::hours>& q) {
+  os << q.value() << "h";
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os,
+                         const scalr::quantity<T, scalr::unit::minutes>& q) {
+  os << q.value() << "min";
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os,
+                         const scalr::quantity<T, scalr::unit::seconds>& q) {
+  os << q.value() << "s";
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(
+    std::ostream& os, const scalr::quantity<T, scalr::unit::milliseconds>& q) {
+  os << q.value() << "ms";
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(
+    std::ostream& os, const scalr::quantity<T, scalr::unit::microseconds>& q) {
+  os << q.value() << "us";
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(
+    std::ostream& os, const scalr::quantity<T, scalr::unit::nanoseconds>& q) {
+  os << q.value() << "ns";
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(
+    std::ostream& os, const scalr::quantity<T, scalr::unit::picoseconds>& q) {
+  os << q.value() << "ps";
+  return os;
+}
+
+#endif

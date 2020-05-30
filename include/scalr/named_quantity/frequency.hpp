@@ -21,6 +21,12 @@ struct frequency_dimension {
   using signature = system_signature<-1, 0, 0, 0, 0, 0, 0, 0>;
 };
 
+template <typename Ratio>
+struct frequency_unit {
+  using dimension = frequency_dimension;
+  using ratio = Ratio;
+};
+
 template <typename Rep, typename Ratio = std::ratio<1>>
 using frequency = quantity<Rep, make_unit_t<frequency_dimension, Ratio>>;
 
@@ -63,6 +69,11 @@ struct hertz {
 struct millihertz {
   using dimension = frequency_dimension;
   using ratio = std::milli;
+};
+
+template <typename Ratio>
+struct make<frequency_dimension, Ratio> {
+  using type = scalr::frequency_unit<Ratio>;
 };
 
 template <>
@@ -145,3 +156,50 @@ constexpr millihertz operator""_mHz(unsigned long long value) {
 }  // namespace literals
 
 }  // namespace scalr
+
+// IO Helpers
+#if defined(ENABLE_SCALR_IO)
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os,
+                         const scalr::quantity<T, scalr::unit::terahertz>& q) {
+  os << q.value() << "THz";
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os,
+                         const scalr::quantity<T, scalr::unit::gigahertz>& q) {
+  os << q.value() << "GHz";
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os,
+                         const scalr::quantity<T, scalr::unit::megahertz>& q) {
+  os << q.value() << "MHz";
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os,
+                         const scalr::quantity<T, scalr::unit::kilohertz>& q) {
+  os << q.value() << "kHz";
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os,
+                         const scalr::quantity<T, scalr::unit::hertz>& q) {
+  os << q.value() << "Hz";
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os,
+                         const scalr::quantity<T, scalr::unit::millihertz>& q) {
+  os << q.value() << "mHz";
+  return os;
+}
+
+#endif

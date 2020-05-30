@@ -21,6 +21,12 @@ struct area_dimension {
   using signature = system_signature<0, 2, 0, 0, 0, 0, 0, 0>;
 };
 
+template <typename Ratio>
+struct area_unit {
+  using dimension = area_dimension;
+  using ratio = Ratio;
+};
+
 template <typename Rep, typename Ratio = std::ratio<1>>
 using area = quantity<Rep, make_unit_t<area_dimension, Ratio>>;
 
@@ -52,6 +58,11 @@ struct hectares {
 struct square_kilometers {
   using dimension = area_dimension;
   using ratio = std::ratio<1000000>;
+};
+
+template <typename Ratio>
+struct make<area_dimension, Ratio> {
+  using type = scalr::area_unit<Ratio>;
 };
 
 template <>

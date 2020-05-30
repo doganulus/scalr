@@ -23,6 +23,12 @@ struct luminous_intensity_dimension {
   using signature = system_signature<0, 0, 0, 0, 0, 0, 1, 0>;
 };
 
+template <typename Ratio>
+struct luminous_intensity_unit {
+  using dimension = luminous_intensity_dimension;
+  using ratio = Ratio;
+};
+
 template <typename Rep, typename Ratio = std::ratio<1>>
 using luminous_intensity =
     quantity<Rep, make_unit_t<luminous_intensity_dimension, Ratio>>;
@@ -36,4 +42,12 @@ struct make<0, 0, 0, 0, 0, 0, 1, 0> {
 };
 
 }  // namespace dimension
+
+namespace unit {
+template <typename Ratio>
+struct make<luminous_intensity_dimension, Ratio> {
+  using type = scalr::luminous_intensity_unit<Ratio>;
+};
+}  // namespace unit
+
 }  // namespace scalr

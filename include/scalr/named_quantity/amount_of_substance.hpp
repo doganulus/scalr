@@ -21,6 +21,12 @@ struct amount_of_substance_dimension {
   using signature = system_signature<0, 0, 0, 0, 0, 1, 0, 0>;
 };
 
+template <typename Ratio>
+struct amount_of_substance_unit {
+  using dimension = amount_of_substance_dimension;
+  using ratio = Ratio;
+};
+
 template <typename Rep, typename Ratio = std::ratio<1>>
 using amount_of_substance =
     quantity<Rep, make_unit_t<amount_of_substance_dimension, Ratio>>;
@@ -34,4 +40,11 @@ struct make<0, 0, 0, 0, 0, 1, 0, 0> {
 };
 
 }  // namespace dimension
+
+namespace unit {
+template <typename Ratio>
+struct make<amount_of_substance_dimension, Ratio> {
+  using type = scalr::amount_of_substance_unit<Ratio>;
+};
+}  // namespace unit
 }  // namespace scalr

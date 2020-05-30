@@ -23,6 +23,12 @@ struct length_dimension {
   using signature = system_signature<0, 1, 0, 0, 0, 0, 0, 0>;
 };
 
+template <typename Ratio>
+struct length_unit {
+  using dimension = length_dimension;
+  using ratio = Ratio;
+};
+
 template <typename Rep, typename Ratio = std::ratio<1>>
 using length = quantity<Rep, make_unit_t<length_dimension, Ratio>>;
 
@@ -76,6 +82,11 @@ struct nanometers {
 struct picometers {
   using dimension = length_dimension;
   using ratio = std::pico;
+};
+
+template <typename Ratio>
+struct make<length_dimension, Ratio> {
+  using type = scalr::length_unit<Ratio>;
 };
 
 template <>

@@ -23,6 +23,12 @@ struct mass_dimension {
   using signature = system_signature<0, 0, 1, 0, 0, 0, 0, 0>;
 };
 
+template <typename Ratio>
+struct mass_unit {
+  using dimension = mass_dimension;
+  using ratio = Ratio;
+};
+
 template <typename Rep, typename Ratio = std::ratio<1>>
 using mass = quantity<Rep, make_unit_t<mass_dimension, Ratio>>;
 
@@ -51,6 +57,11 @@ struct grams {
 struct milligrams {
   using dimension = mass_dimension;
   using ratio = std::ratio<1, 1000000>;
+};
+
+template <typename Ratio>
+struct make<mass_dimension, Ratio> {
+  using type = scalr::mass_unit<Ratio>;
 };
 
 template <>

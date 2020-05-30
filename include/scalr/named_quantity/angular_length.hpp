@@ -23,6 +23,12 @@ struct angular_length_dimension {
   using signature = system_signature<0, 0, 0, 0, 0, 0, 0, 1>;
 };
 
+template <typename Ratio>
+struct angular_length_unit {
+  using dimension = angular_length_dimension;
+  using ratio = Ratio;
+};
+
 template <typename Rep, typename Ratio = std::ratio<1>>
 using angular_length =
     quantity<Rep, make_unit_t<angular_length_dimension, Ratio>>;
@@ -36,5 +42,12 @@ struct make<0, 0, 0, 0, 0, 0, 0, 1> {
 };
 
 }  // namespace dimension
+
+namespace unit {
+template <typename Ratio>
+struct make<angular_length_dimension, Ratio> {
+  using type = scalr::angular_length_unit<Ratio>;
+};
+}  // namespace unit
 
 }  // namespace scalr

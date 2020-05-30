@@ -21,6 +21,12 @@ struct volume_dimension {
   using signature = system_signature<0, 3, 0, 0, 0, 0, 0, 0>;
 };
 
+template <typename Ratio>
+struct volume_unit {
+  using dimension = volume_dimension;
+  using ratio = Ratio;
+};
+
 template <typename Rep, typename Ratio = std::ratio<1>>
 using volume = quantity<Rep, make_unit_t<volume_dimension, Ratio>>;
 
@@ -48,6 +54,11 @@ struct liter {
 struct milliliter {
   using dimension = volume_dimension;
   using ratio = std::ratio<10000>;
+};
+
+template <typename Ratio>
+struct make<volume_dimension, Ratio> {
+  using type = scalr::volume_unit<Ratio>;
 };
 
 template <>

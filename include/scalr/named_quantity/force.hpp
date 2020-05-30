@@ -21,6 +21,12 @@ struct force_dimension {
   using signature = system_signature<-2, 1, 1, 0, 0, 0, 0, 0>;
 };
 
+template <typename Ratio>
+struct force_unit {
+  using dimension = force_dimension;
+  using ratio = Ratio;
+};
+
 template <typename Rep, typename Ratio = std::ratio<1>>
 using force = quantity<Rep, make_unit_t<force_dimension, Ratio>>;
 
@@ -39,6 +45,11 @@ namespace unit {
 struct newtons {
   using dimension = force_dimension;
   using ratio = std::ratio<1>;
+};
+
+template <typename Ratio>
+struct make<force_dimension, Ratio> {
+  using type = scalr::force_unit<Ratio>;
 };
 
 template <>

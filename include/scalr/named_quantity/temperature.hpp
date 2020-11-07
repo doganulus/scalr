@@ -41,10 +41,22 @@ struct make<0, 0, 0, 1, 0, 0, 0, 0> {
 }  // namespace dimension
 
 namespace unit {
+
+struct kelvins {
+  using dimension = temperature_dimension;
+  using ratio = std::ratio<1>;
+};
+
+template <>
+struct make<temperature_dimension, std::ratio<1>> {
+  using type = kelvins;
+};
+
 template <typename Ratio>
 struct make<temperature_dimension, Ratio> {
   using type = scalr::temperature_unit<Ratio>;
 };
+
 }  // namespace unit
 
 using kelvins = temperature<double, std::ratio<1>>;

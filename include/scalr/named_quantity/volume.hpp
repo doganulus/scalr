@@ -41,17 +41,17 @@ struct make<0, 3, 0, 0, 0, 0, 0, 0> {
 
 namespace unit {
 
-struct cubic_meter {
+struct cubic_meters {
   using dimension = volume_dimension;
   using ratio = std::ratio<1>;
 };
 
-struct liter {
+struct liters {
   using dimension = volume_dimension;
   using ratio = std::ratio<100>;
 };
 
-struct milliliter {
+struct milliliters {
   using dimension = volume_dimension;
   using ratio = std::ratio<10000>;
 };
@@ -63,45 +63,73 @@ struct make<volume_dimension, Ratio> {
 
 template <>
 struct make<volume_dimension, std::ratio<1>> {
-  using type = cubic_meter;
+  using type = cubic_meters;
 };
 
 template <>
 struct make<volume_dimension, std::ratio<1, 1000>> {
-  using type = liter;
+  using type = liters;
 };
 
 template <>
 struct make<volume_dimension, std::ratio<1, 1000000>> {
-  using type = milliliter;
+  using type = milliliters;
 };
 
 }  // namespace unit
 
-using cubic_meter = volume<double, std::ratio<1>>;
-using liter = volume<double, std::ratio<1, 1000>>;
-using milliliter = volume<double, std::ratio<1, 1000000>>;
+using cubic_meters = volume<double, std::ratio<1>>;
+using liters = volume<double, std::ratio<1, 1000>>;
+using milliliters = volume<double, std::ratio<1, 1000000>>;
 
 namespace literals {
 
-constexpr cubic_meter operator""_m3(long double value) {
-  return cubic_meter{value};
+constexpr cubic_meters operator""_m3(long double value) {
+  return cubic_meters{value};
 }
-constexpr liter operator""_l(long double value) { return liter{value}; }
+constexpr liters operator""_l(long double value) { return liters{value}; }
 
-constexpr milliliter operator""_ml(long double value) {
-  return milliliter{value};
+constexpr milliliters operator""_ml(long double value) {
+  return milliliters{value};
 }
 
-constexpr cubic_meter operator""_m3(unsigned long long value) {
-  return cubic_meter{value};
+constexpr cubic_meters operator""_m3(unsigned long long value) {
+  return cubic_meters{value};
 }
-constexpr liter operator""_l(unsigned long long value) { return liter{value}; }
+constexpr liters operator""_l(unsigned long long value) {
+  return liters{value};
+}
 
-constexpr milliliter operator""_ml(unsigned long long value) {
-  return milliliter{value};
+constexpr milliliters operator""_ml(unsigned long long value) {
+  return milliliters{value};
 }
 
 }  // namespace literals
 
 }  // namespace scalr
+
+// IO Helpers
+#if defined(ENABLE_SCALR_IO)
+
+template <typename T>
+std::ostream& operator<<(
+    std::ostream& os, const scalr::quantity<T, scalr::unit::cubic_meters>& q) {
+  os << q.value() << "m^3";
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os,
+                         const scalr::quantity<T, scalr::unit::liters>& q) {
+  os << q.value() << "L";
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(
+    std::ostream& os, const scalr::quantity<T, scalr::unit::milliliters>& q) {
+  os << q.value() << "mL";
+  return os;
+}
+
+#endif

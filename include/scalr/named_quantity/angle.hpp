@@ -126,3 +126,29 @@ constexpr radians operator""_grad(unsigned long long value) {
 }  // namespace literals
 
 }  // namespace scalr
+
+// IO Helpers
+#if defined(ENABLE_SCALR_IO)
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os,
+                         const scalr::quantity<T, scalr::unit::radians>& q) {
+  os << q.value() << "rad";
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os,
+                         const scalr::quantity<T, scalr::unit::degrees>& q) {
+  os << q.value() << "deg";
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os,
+                         const scalr::quantity<T, scalr::unit::gradians>& q) {
+  os << q.value() << "grad";
+  return os;
+}
+
+#endif

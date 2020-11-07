@@ -115,3 +115,30 @@ constexpr square_kilometers operator""_km2(unsigned long long value) {
 }  // namespace literals
 
 }  // namespace scalr
+
+// IO Helpers
+#if defined(ENABLE_SCALR_IO)
+
+template <typename T>
+std::ostream& operator<<(
+    std::ostream& os, const scalr::quantity<T, scalr::unit::square_meters>& q) {
+  os << q.value() << "m^2";
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os,
+                         const scalr::quantity<T, scalr::unit::hectares>& q) {
+  os << q.value() << "ha";
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(
+    std::ostream& os,
+    const scalr::quantity<T, scalr::unit::square_kilometers>& q) {
+  os << q.value() << "km^2";
+  return os;
+}
+
+#endif

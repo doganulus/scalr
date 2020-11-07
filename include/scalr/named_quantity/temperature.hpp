@@ -50,3 +50,15 @@ struct make<temperature_dimension, Ratio> {
 using kelvins = temperature<double, std::ratio<1>>;
 
 }  // namespace scalr
+
+// IO Helpers
+#if defined(ENABLE_SCALR_IO)
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os,
+                         const scalr::quantity<T, scalr::unit::kelvins>& q) {
+  os << q.value() << "K";
+  return os;
+}
+
+#endif

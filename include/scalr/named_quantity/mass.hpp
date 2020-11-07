@@ -108,3 +108,29 @@ constexpr milligrams operator""_mg(unsigned long long value) {
 }  // namespace literals
 
 }  // namespace scalr
+
+// IO Helpers
+#if defined(ENABLE_SCALR_IO)
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os,
+                         const scalr::quantity<T, scalr::unit::kilograms>& q) {
+  os << q.value() << "kg";
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os,
+                         const scalr::quantity<T, scalr::unit::grams>& q) {
+  os << q.value() << "g";
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os,
+                         const scalr::quantity<T, scalr::unit::milligrams>& q) {
+  os << q.value() << "mg";
+  return os;
+}
+
+#endif

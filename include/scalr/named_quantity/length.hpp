@@ -240,3 +240,92 @@ constexpr inches operator""_in(unsigned long long value) {
 }  // namespace literals
 
 }  // namespace scalr
+
+// IO Helpers
+#if defined(ENABLE_SCALR_IO)
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os,
+                         const scalr::quantity<T, scalr::unit::kilometers>& q) {
+  os << q.value() << "km";
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os,
+                         const scalr::quantity<T, scalr::unit::meters>& q) {
+  os << q.value() << "m";
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os,
+                         const scalr::quantity<T, scalr::unit::decimeters>& q) {
+  os << q.value() << "dm";
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(
+    std::ostream& os, const scalr::quantity<T, scalr::unit::centimeters>& q) {
+  os << q.value() << "cm";
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(
+    std::ostream& os, const scalr::quantity<T, scalr::unit::millimeters>& q) {
+  os << q.value() << "mm";
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(
+    std::ostream& os, const scalr::quantity<T, scalr::unit::micrometers>& q) {
+  os << q.value() << "um";
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os,
+                         const scalr::quantity<T, scalr::unit::nanometers>& q) {
+  os << q.value() << "nm";
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os,
+                         const scalr::quantity<T, scalr::unit::picometers>& q) {
+  os << q.value() << "pm";
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os,
+                         const scalr::quantity<T, scalr::unit::miles>& q) {
+  os << q.value() << "mi";
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os,
+                         const scalr::quantity<T, scalr::unit::yards>& q) {
+  os << q.value() << "yd";
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os,
+                         const scalr::quantity<T, scalr::unit::feet>& q) {
+  os << q.value() << "ft";
+  return os;
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os,
+                         const scalr::quantity<T, scalr::unit::inches>& q) {
+  os << q.value() << "in";
+  return os;
+}
+
+#endif

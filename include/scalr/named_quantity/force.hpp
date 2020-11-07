@@ -72,3 +72,15 @@ constexpr newtons operator""_N(unsigned long long value) {
 }  // namespace literals
 
 }  // namespace scalr
+
+// IO Helpers
+#if defined(ENABLE_SCALR_IO)
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os,
+                         const scalr::quantity<T, scalr::unit::newtons>& q) {
+  os << q.value() << "N";
+  return os;
+}
+
+#endif

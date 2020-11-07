@@ -2,6 +2,7 @@
 #include <iostream>
 #include <type_traits>
 
+#define ENABLE_SCALR_IO
 #include "scalr/scalr.hpp"
 
 #include "third_party/catch.hpp"
@@ -170,6 +171,11 @@ TEST_CASE("Quantities") {
     CHECK((119.0_s / 17.0_s) == 7.0);  // 119/17 == 7 (float division)
   }
 
+  SECTION("Dimensional Multiplication/Division") {
+    using namespace scalr::literals;
+    CHECK((12_mm * 1000.0) == (120_m / 10.0));
+  }
+
   SECTION("Newton Mechanics") {
     scalr::meters dist = scalr::meters(12);
     scalr::seconds dt = scalr::seconds(100);
@@ -185,5 +191,15 @@ TEST_CASE("Quantities") {
     scalr::newtons f = scalr::kilograms(1000) * a;
 
     CHECK(f == scalr::newtons(1.2));
+  }
+
+  SECTION("Console help") {
+    scalr::speed<double, std::ratio<1, 2>> my_speed =
+        scalr::length<double>(100) / scalr::duration<intmax_t>(12);
+  }
+
+  SECTION("Console help") {
+    std::cout << scalr::seconds(100) << std::endl;
+    std::cout << scalr::hours(100) << std::endl;
   }
 }

@@ -4,7 +4,7 @@ Scalr has three levels of hierarchy
 
 ## Base system and dimensions
 
-Scalr library is based on the International System (SI) of Units. The SI defines 7 base dimensions for physical quantities (time, length, mass, temperature, electric current, amount of substance, and luminous intensity) with a base unit for each (second, meter, kilogram, kelvin, ampere, mole, and candela). Moreover Scalr consiers "angular length" as the 8th independent dimension with a unit of arcmeters (obviously non-standard).
+Scalr library is based on the International System (SI) of Units. The SI defines 7 base dimensions for physical quantities (time, length, mass, temperature, electric current, amount of substance, and luminous intensity) with a base unit for each (second, meter, kilogram, kelvin, ampere, mole, and candela). Moreover Scalr considers "angular length" as the 8th independent dimension with a unit of arcmeters (obviously non-standard).
 
 ```c++
 // System: 7 Base SI dimensions + angular length

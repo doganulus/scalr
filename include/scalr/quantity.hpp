@@ -26,7 +26,7 @@ struct is_quantity : std::false_type {};
 template <typename Rep, typename Unit>
 struct is_quantity<quantity<Rep, Unit>> : std::true_type {};
 
-// TODO: Use this to implement linear/rotatinal range
+// TODO: Use this to implement linear/rotational range
 // PLUS: What about Ada-like subtypes?
 template <typename Rep>
 struct linear_range {
@@ -161,29 +161,10 @@ struct quantity {
   quantity& operator=(const quantity&) = default;
   quantity& operator=(quantity&&) = default;
 
-  // 20.11.5.2 observer
   constexpr value_type value() const { return value_; }
 
-  // 20.11.5.3 arithmetic
   constexpr quantity operator+() const { return *this; }
   constexpr quantity operator-() const { return quantity(-value_); }
-
-  //
-  // COMMENT: Probably increment operations will not be included.
-  //
-  // quantity& operator++() {
-  //   ++value_;
-  //   return *this;
-  // }
-
-  // quantity operator++(int) { return quantity(value_++); }
-
-  // quantity& operator--() {
-  //   --value_;
-  //   return *this;
-  // }
-
-  // quantity operator--(int) { return quantity(value_--); }
 
   quantity& operator+=(const quantity& other) {
     value_ += other.value();
@@ -215,6 +196,8 @@ struct quantity {
     value_ %= other.value();
     return *this;
   }
+
+  operator bool() const { return bool(value_); }
 
   static constexpr quantity zero() noexcept {
     return quantity(linear_range<value_type>::zero());

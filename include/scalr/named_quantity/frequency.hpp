@@ -121,7 +121,7 @@ namespace literals {
 constexpr terahertz operator""_THz(long double value) {
   return terahertz{value};
 }
-constexpr gigahertz operator""_Ghz(long double value) {
+constexpr gigahertz operator""_GHz(long double value) {
   return gigahertz{value};
 }
 constexpr megahertz operator""_MHz(long double value) {
@@ -139,7 +139,7 @@ constexpr millihertz operator""_mHz(long double value) {
 constexpr terahertz operator""_THz(unsigned long long value) {
   return terahertz{value};
 }
-constexpr gigahertz operator""_Ghz(unsigned long long value) {
+constexpr gigahertz operator""_GHz(unsigned long long value) {
   return gigahertz{value};
 }
 constexpr megahertz operator""_MHz(unsigned long long value) {

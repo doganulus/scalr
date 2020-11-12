@@ -4,12 +4,13 @@ on: push
 
 jobs:
   test:
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-latest
+    container: conanio/${{matrix.conan_image}}
     strategy:      
       matrix: 
-        gccVersion: [5, 7, 8, 9]
+        conan_image: [gcc5, gcc6, gcc7, gcc8, gcc9, gcc10]
     steps:
     - uses: actions/checkout@v2
     - name: make test
-      run: make CC=gcc-${{matrix.gccVersion}} CXX=g++-${{matrix.gccVersion}} test
+      run: make CC=gcc-${{matrix.gccVersion}} CXX=g++ test
 

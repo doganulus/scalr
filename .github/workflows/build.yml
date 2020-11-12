@@ -1,0 +1,15 @@
+name: Test scalr
+
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-16.04
+    strategy:      
+      matrix: 
+        gccVersion: [5, 7, 8, 9]
+    steps:
+    - uses: actions/checkout@v2
+    - name: make test
+      run: make CC=gcc-${{matrix.gccVersion}} CXX=g++-${{matrix.gccVersion}} test
+

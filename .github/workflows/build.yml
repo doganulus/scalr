@@ -12,5 +12,5 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: make test
-      run: make CC=gcc-${{matrix.gccVersion}} CXX=g++ test
+      run: sudo make CC=gcc-${{matrix.gccVersion}} CXX=g++ test
 

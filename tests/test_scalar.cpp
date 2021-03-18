@@ -141,6 +141,14 @@ TEST_CASE("Quantities") {
     CHECK(scalr::gradians(100) == scalr::reduced_radians(0.25));
   }
 
+  SECTION("Electric Current") {
+    using namespace scalr::literals;
+
+    CHECK(4.2_mA == 4200_uA);
+    CHECK(42_mA == 0.042_A);
+    CHECK(4000_mA == 4_A);
+  }
+
   SECTION("Conversion") {
     scalr::seconds secs{12};
     scalr::minutes mins{4};

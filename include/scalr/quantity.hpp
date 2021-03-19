@@ -408,6 +408,14 @@ constexpr quantity_sum_t<quantity<T1, U1>, quantity<T2, U2>> operator%(
   return stype(stype(left).value() % stype(right).value());
 }
 
+template <typename Rep, typename Unit,
+          typename std::enable_if<quantity<Rep, Unit>::min() <
+                                      quantity<Rep, Unit>::zero(),
+                                  int>::type = 0>
+constexpr quantity<Rep, Unit> abs(const quantity<Rep, Unit>& value) {
+  return value >= value.zero() ? value : -value;
+}
+
 }  // namespace scalr
 
 namespace std {

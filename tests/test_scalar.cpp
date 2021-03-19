@@ -169,7 +169,7 @@ TEST_CASE("Quantities") {
     CHECK(diff == scalr::nanoseconds(1198800));
   }
 
-  SECTION("Scalar Multiplication/Division/Modulo") {
+  SECTION("Scalar Multiplication/Division/Modulo/Absolute value") {
     using namespace scalr::literals;
     CHECK((12_mm * 1000.0) == (120_m / 10.0));
     CHECK((25.0 / 100_s) == (2.5 / 10_s));
@@ -177,6 +177,11 @@ TEST_CASE("Quantities") {
     CHECK((2_min % 17_s) == 1_s);
     CHECK((2_min / 17_s) == 7);        // 120/17 == 7 (integer division)
     CHECK((119.0_s / 17.0_s) == 7.0);  // 119/17 == 7 (float division)
+    CHECK(abs(-42_m) == 42_m);
+    CHECK(abs(42_m) == 42_m);
+    CHECK(abs(0_m) == 0_m);
+    CHECK(abs(-42.42_m) == 42.42_m);
+    CHECK(abs(42.42_m) == 42.42_m);
   }
 
   SECTION("Dimensional Multiplication/Division") {

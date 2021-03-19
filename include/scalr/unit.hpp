@@ -15,6 +15,15 @@
 
 namespace scalr {
 
+/* Class template physical unit type */
+template <class DimensionT, class Ratio = std::ratio<1>>
+struct unnamed_unit {
+  using dimension = DimensionT;
+  using ratio = Ratio;
+};
+
+namespace detail {
+
 template <intmax_t K>
 struct sign : std::integral_constant<intmax_t, (K < 0) ? -1 : 1> {};
 
@@ -37,24 +46,15 @@ struct lcm : std::integral_constant<intmax_t, (M / gcd<M, N>::value) * N> {};
 // gcrd(a/b, c/d) = gcd(ad, bc)/bd
 // gcrd(a/b, c/d) = gcd(a,c)/lcm(b,d) if gcd(a,b) = gcd(c,d) = 1
 template <class R1, class R2>
-struct ratio_gcrd : std::ratio<scalr::gcd<R1::num, R2::num>::value,
-                               scalr::lcm<R1::den, R2::den>::value> {};
+struct ratio_gcrd : std::ratio<scalr::detail::gcd<R1::num, R2::num>::value,
+                               scalr::detail::lcm<R1::den, R2::den>::value> {};
 
 // lcrm: least common rational multiple
 // lcrm(a/b, c/d) = lcm(ad, bc)/bd
 // lcrm(a/b, c/d) = lcm(a,c)/gcd(b,d) if gcd(a,b) = gcd(c,d) = 1
 template <class R1, class R2>
-struct ratio_lcrm : std::ratio<scalr::lcm<R1::num, R2::num>::value,
-                               scalr::gcd<R1::den, R2::den>::value> {};
-
-/* Class template physical unit type */
-template <class DimensionT, class Ratio = std::ratio<1>>
-struct unnamed_unit {
-  using dimension = DimensionT;
-  using ratio = Ratio;
-};
-
-namespace detail {
+struct ratio_lcrm : std::ratio<scalr::detail::lcm<R1::num, R2::num>::value,
+                               scalr::detail::gcd<R1::den, R2::den>::value> {};
 
 template <bool B>
 using bool_constant = std::integral_constant<bool, B>;
@@ -115,9 +115,9 @@ struct sum<U1, U2> {
   static_assert(std::is_same<D1, D2>::value,
                 "unit dimensions must match for addition/subtraction");
 
-  using type =
-      typename make<D1, std::ratio<scalr::gcd<R1::num, R2::num>::value,
-                                   scalr::lcm<R1::den, R2::den>::value>>::type;
+  using type = typename make<
+      D1, std::ratio<scalr::detail::gcd<R1::num, R2::num>::value,
+                     scalr::detail::lcm<R1::den, R2::den>::value>>::type;
 };
 
 template <class U1, class U2, class... Un>

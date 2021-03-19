@@ -44,10 +44,74 @@ struct make<0, 0, 0, 0, 1, 0, 0, 0> {
 }  // namespace dimension
 
 namespace unit {
+
+struct microampers {
+    using dimension = electric_current_dimension;
+    using ratio = std::ratio<1, 1000000>;
+};
+
+struct milliampers {
+    using dimension = electric_current_dimension;
+    using ratio = std::ratio<1, 1000>;
+};
+
+struct ampers {
+    using dimension = electric_current_dimension;
+    using ratio = std::ratio<1>;
+};
+
 template <typename Ratio>
 struct make<electric_current_dimension, Ratio> {
   using type = scalr::electric_current_unit<Ratio>;
 };
+
+template <>
+struct make<electric_current_dimension, std::ratio<1, 1000000>> {
+    using type = microampers;
+};
+
+template <>
+struct make<electric_current_dimension, std::ratio<1, 1000>> {
+    using type = milliampers;
+};
+
+template <>
+struct make<electric_current_dimension, std::ratio<1>> {
+    using type = ampers;
+};
+
 }  // namespace unit
+
+using microampers = electric_current<double, std::ratio<1, 1000000>>;
+using milliampers = electric_current<double, std::ratio<1, 1000>>;
+using ampers = electric_current<double, std::ratio<1>>;
+
+namespace literals {
+
+constexpr microampers operator""_uA(long double value) {
+    return microampers{value};
+}
+
+constexpr milliampers operator""_mA(long double value) {
+    return milliampers{value};
+}
+
+constexpr ampers operator""_A(long double value) {
+    return ampers{value};
+}
+
+constexpr microampers operator""_uA(unsigned long long value) {
+  return microampers{value};
+}
+
+constexpr milliampers operator""_mA(unsigned long long value) {
+  return milliampers{value};
+}
+
+constexpr ampers operator""_A(unsigned long long value) {
+  return ampers{value};
+}
+
+} // namespace literals
 
 }  // namespace scalr

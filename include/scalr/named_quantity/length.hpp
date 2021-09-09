@@ -193,6 +193,9 @@ constexpr kilometers operator""_km(long double value) {
   return kilometers{value};
 }
 constexpr meters operator""_m(long double value) { return meters{value}; }
+constexpr centimeters operator""_cm(long double value) {
+  return centimeters{value};
+}
 constexpr millimeters operator""_mm(long double value) {
   return millimeters{value};
 }
@@ -216,6 +219,9 @@ constexpr kilometers operator""_km(unsigned long long value) {
 }
 constexpr meters operator""_m(unsigned long long value) {
   return meters{value};
+}
+constexpr centimeters operator""_cm(unsigned long long value) {
+  return centimeters{value};
 }
 constexpr millimeters operator""_mm(unsigned long long value) {
   return millimeters{value};

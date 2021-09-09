@@ -107,6 +107,13 @@ TEST_CASE("Quantities") {
     CHECK(scalr::picometers(km).value() == 3218688000000000);
 
     CHECK(scalr::miles(km).value() == Approx(2.0));
+
+    SECTION("Literals") {
+      using namespace scalr::literals;
+
+      CHECK(42_cm == scalr::centimeters{42});
+      CHECK(42.42_cm == scalr::centimeters{42.42});
+    }
   }
 
   SECTION("Imperial Length") {

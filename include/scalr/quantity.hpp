@@ -197,8 +197,6 @@ struct quantity {
     return *this;
   }
 
-  operator bool() const { return bool(value_); }
-
   static constexpr quantity zero() noexcept {
     return quantity(linear_range<value_type>::zero());
   }

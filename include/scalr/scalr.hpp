@@ -23,6 +23,7 @@
 // #include "scalr/named_quantity/angular_speed.hpp"
 #include "scalr/named_quantity/area.hpp"
 #include "scalr/named_quantity/electric_current.hpp"
+#include "scalr/named_quantity/electric_potential.hpp"
 #include "scalr/named_quantity/force.hpp"
 #include "scalr/named_quantity/frequency.hpp"
 // #include "scalr/named_quantity/jerk.hpp"

@@ -156,6 +156,14 @@ TEST_CASE("Quantities") {
     CHECK(4000_mA == 4_A);
   }
 
+  SECTION("Electric Potential") {
+    using namespace scalr::literals;
+
+    CHECK(4.2_mV == 4200_uV);
+    CHECK(42_mV == 0.042_V);
+    CHECK(4000_mV == 4_V);
+  }
+
   SECTION("Conversion") {
     scalr::seconds secs{12};
     scalr::minutes mins{4};

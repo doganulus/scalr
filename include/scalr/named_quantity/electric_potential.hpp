@@ -20,8 +20,8 @@
 namespace scalr {
 struct electric_potential_dimension {
   // 7 Base SI dimensions + angle dimension
-  // SI base units	kg⋅m2⋅s−3⋅A−1
-  using signature = system_signature<1, 1, 1, 1, 0, 0, 0, 0>;
+  // SI base units	s−3⋅m2⋅kg⋅A−1
+  using signature = system_signature<-3, 2, 1, -1, 0, 0, 0, 0>;
 };
 
 template <typename Ratio>
@@ -37,7 +37,7 @@ using electric_potential =
 // Detail and specializations
 namespace dimension {
 template <>
-struct make<1, 1, 1, 1, 0, 0, 0, 0> {
+struct make<-3, 2, 1, -1, 0, 0, 0, 0> {
   using type = electric_potential_dimension;
 };
 }  // namespace dimension
@@ -46,12 +46,12 @@ namespace unit {
 
 struct microvolts {
   using dimension = electric_potential_dimension;
-  using ratio = std::ratio<1, 1000000>;
+  using ratio = std::micro;
 };
 
 struct millivolts {
   using dimension = electric_potential_dimension;
-  using ratio = std::ratio<1, 1000>;
+  using ratio = std::milli;
 };
 
 struct volts {
@@ -60,8 +60,8 @@ struct volts {
 };
 }  // namespace unit
 
-using microvolts = electric_potential<double, std::ratio<1, 1000000>>;
-using millivolts = electric_potential<double, std::ratio<1, 1000>>;
+using microvolts = electric_potential<double, std::micro>;
+using millivolts = electric_potential<double, std::milli>;
 using volts = electric_potential<double, std::ratio<1>>;
 
 namespace literals {

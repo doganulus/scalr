@@ -52,6 +52,11 @@ TEST_CASE("Dimension") {
           dimension_product_t<dimension_exponent_t<time_dimension, -2>,
                               length_dimension>,
           acceleration_dimension>::value);
+
+    CHECK(
+        std::is_same<power_dimension,
+                     dimension_product_t<electric_current_dimension,
+                                         electric_potential_dimension>>::value);
   }
 }
 
@@ -154,6 +159,24 @@ TEST_CASE("Quantities") {
     CHECK(4.2_mA == 4200_uA);
     CHECK(42_mA == 0.042_A);
     CHECK(4000_mA == 4_A);
+  }
+
+  SECTION("Electric Potential") {
+    using namespace scalr::literals;
+
+    CHECK(4.2_mV == 4200_uV);
+    CHECK(42_mV == 0.042_V);
+    CHECK(4000_mV == 4_V);
+  }
+
+  SECTION("Power") {
+    using namespace scalr::literals;
+
+    CHECK(1_A * 1_V == 1_W);
+    CHECK(100_mA * 12_V == 1.2_W);
+
+    CHECK(1_mps * 1_N == 1_W);
+    CHECK(80_kg * 9.81_mps2 * 3_m / 5_s == 470.88_W);
   }
 
   SECTION("Conversion") {

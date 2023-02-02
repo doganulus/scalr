@@ -18,7 +18,7 @@ namespace scalr {
 
 struct temperature_dimension {
   // 7 Base SI dimensions + angle dimension
-  using signature = system_signature<0, 0, 0, 1, 0, 0, 0, 0>;
+  using signature = system_signature<0, 0, 0, 0, 1, 0, 0, 0>;
 };
 
 template <typename Ratio>
@@ -34,7 +34,7 @@ using temperature = quantity<Rep, make_unit_t<temperature_dimension, Ratio>>;
 namespace dimension {
 
 template <>
-struct make<0, 0, 0, 1, 0, 0, 0, 0> {
+struct make<0, 0, 0, 0, 1, 0, 0, 0> {
   using type = temperature_dimension;
 };
 

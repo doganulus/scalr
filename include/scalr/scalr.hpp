@@ -30,6 +30,7 @@
 #include "scalr/named_quantity/length.hpp"
 #include "scalr/named_quantity/luminous_intensity.hpp"
 #include "scalr/named_quantity/mass.hpp"
+#include "scalr/named_quantity/power.hpp"
 // #include "scalr/named_quantity/snap.hpp"
 #include "scalr/named_quantity/speed.hpp"
 #include "scalr/named_quantity/temperature.hpp"

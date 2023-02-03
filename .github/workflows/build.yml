@@ -5,10 +5,10 @@ on: push
 jobs:
   test:
     runs-on: ubuntu-latest
-    container: gcc:${{matrix.tag}}
+    container: conanio/${{matrix.tag}}:latest
     strategy:
       matrix:
-        tag: [5, 6, 7, 8, 9, 10, 11, 12]
+        tag: [gcc5, gcc6, gcc7, gcc8, gcc9, gcc10, gcc11]
     steps:
       - uses: actions/checkout@v3
       - name: Run unit tests

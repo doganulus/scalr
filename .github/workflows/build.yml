@@ -5,7 +5,9 @@ on: push
 jobs:
   test:
     runs-on: ubuntu-latest
-    container: conanio/${{matrix.tag}}:latest
+    container:
+      image: conanio/${{matrix.tag}}:latest
+      options: --user root
     strategy:
       matrix:
         tag: [gcc5, gcc6, gcc7, gcc8, gcc9, gcc10, gcc11]

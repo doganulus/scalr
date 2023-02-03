@@ -30,7 +30,7 @@ target_include_directories(
 
 # Install
 install(
-  TARGETS scalr
+  TARGETS ${SCALR_TARGET_NAME}
   EXPORT ${SCALR_TARGETS_EXPORT_NAME}
   ARCHIVE
     DESTINATION ${CMAKE_INSTALL_LIBDIR}

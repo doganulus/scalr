@@ -15,8 +15,8 @@ jobs:
 
       - name: Install CMake from source
         run: |
-          wget https://github.com/Kitware/CMake/releases/download/v3.25.2/cmake-3.25.2-linux-x86_64.tar.gz -o cmake_src.tar.gz
-          tar xvzf cmake_src.tar.gz
+          wget https://github.com/Kitware/CMake/releases/download/v3.25.2/cmake-3.25.2-linux-x86_64.tar.gz -O cmake_src.tar.gz
+          tar xzf cmake_src.tar.gz
           cd cmake_src
           ./bootstrap
           make

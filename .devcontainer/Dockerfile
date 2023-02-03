@@ -8,6 +8,9 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
         tar curl wget zip unzip gnupg2 \
         cmake \
         ninja-build \
+        python3 \
+        python3-pip \
+        python-is-python3 \
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
@@ -32,5 +35,7 @@ RUN groupadd work -g 1000 \
    && printf "scalr ALL= NOPASSWD: ALL\\n" >> /etc/sudoers
 
 USER scalr
+
+RUN python -m pip install --user cmakelang[YAML]
 
 ENV PATH "/home/scalr/.local/bin:${PATH}"

@@ -1,5 +1,11 @@
 # Directories
 build/
+cache/
+data/
+coverage/
+
+# Build files
+compile_commands.json
 
 # Prerequisites
 *.d

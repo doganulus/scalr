@@ -9,16 +9,19 @@
   "customizations": {
     "vscode": {
       "extensions": [
-		"ms-vscode.cmake-tools",
-		"ms-vscode.cpptools",
-		"esbenp.prettier-vscode",
-		"EditorConfig.EditorConfig",
-		"cheshirekow.cmake-format"
-	],
+        "ms-vscode.cmake-tools",
+        "ms-vscode.cpptools",
+        "esbenp.prettier-vscode",
+        "cheshirekow.cmake-format",
+        "EditorConfig.EditorConfig"
+      ],
       "settings": {
         "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+        "editor.formatOnPaste": true,
         "C_Cpp.default.cppStandard": "c++11",
         "C_Cpp.default.includePath": ["include"],
+        "C_Cpp.codeAnalysis.clangTidy.enabled": true,
         "[cpp]": {
           "editor.defaultFormatter": "ms-vscode.cpptools"
         },

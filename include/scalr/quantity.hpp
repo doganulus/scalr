@@ -417,10 +417,27 @@ constexpr quantity<Rep, Unit> abs(const quantity<Rep, Unit>& value) {
 }  // namespace scalr
 
 namespace std {
-template <class Dimension1, class Ratio1, class Dimension2, class Ratio2>
-struct common_type<scalr::quantity<Dimension1, Ratio1>,
-                   scalr::quantity<Dimension2, Ratio2>> {
-  using type = scalr::quantity_sum_t<scalr::quantity<Dimension1, Ratio1>,
-                                     scalr::quantity<Dimension2, Ratio2>>;
+
+template <class Rep1, class Unit1>
+struct common_type<scalr::quantity<Rep1, Unit1>>
+    : common_type<scalr::quantity<Rep1, Unit1>, scalr::quantity<Rep1, Unit1>> {
 };
+
+template <class Rep1, class Unit1, class Rep2, class Unit2>
+struct common_type<scalr::quantity<Rep1, Unit1>, scalr::quantity<Rep2, Unit2>> {
+  using type = scalr::quantity_sum_t<scalr::quantity<Rep1, Unit1>,
+                                     scalr::quantity<Rep2, Unit2>>;
+};
+
+template <class Rep1, class Unit1, class Rep2, class Unit2, class... Qn>
+struct common_type<scalr::quantity<Rep1, Unit1>, scalr::quantity<Rep2, Unit2>,
+                   Qn...> {
+  using type = typename common_type<
+      scalr::quantity<Rep1, Unit1>,
+      typename common_type<scalr::quantity<Rep2, Unit2>, Qn...>::type>::type;
+};
+
+template <class... Q>
+using common_type_t = typename common_type<Q...>::type;
+
 }  // namespace std

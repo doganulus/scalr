@@ -1,91 +1,156 @@
+#include <catch2/catch_approx.hpp>
+#include <catch2/catch_test_macros.hpp>
+
 #include "scalr/scalr.hpp"
 
-#include <catch2/catch_test_macros.hpp>
-#include <catch2/catch_approx.hpp>
-
-using namespace scalr;
 using namespace scalr::literals;
 
 TEST_CASE("Dimensions") {
   SECTION("Dimension Arithmetic") {
-    CHECK(std::is_same<time_dimension,
-                       make_dimension_t<1, 0, 0, 0, 0, 0, 0, 0>>::value);
+    STATIC_CHECK(
+        std::is_same<scalr::time_dimension,
+                     scalr::make_dimension_t<1, 0, 0, 0, 0, 0, 0, 0>>::value);
 
-    CHECK(std::is_same<unnamed_dimension<1, 2, 3, 4, 5, 6, 7, 8>,
-                       make_dimension_t<1, 2, 3, 4, 5, 6, 7, 8>>::value);
+    STATIC_CHECK(
+        std::is_same<scalr::unnamed_dimension<1, 2, 3, 4, 5, 6, 7, 8>,
+                     scalr::make_dimension_t<1, 2, 3, 4, 5, 6, 7, 8>>::value);
 
-    CHECK(std::is_same<frequency_dimension,
-                       dimension_inverse_t<time_dimension>>::value);
+    STATIC_CHECK(
+        std::is_same<scalr::frequency_dimension,
+                     scalr::dimension_inverse_t<scalr::time_dimension>>::value);
 
-    CHECK(std::is_same<time_dimension,
-                       dimension_inverse_t<frequency_dimension>>::value);
+    STATIC_CHECK(
+        std::is_same<
+            scalr::time_dimension,
+            scalr::dimension_inverse_t<scalr::frequency_dimension>>::value);
 
-    CHECK(std::is_same<
-          speed_dimension,
-          dimension_product_t<length_dimension, frequency_dimension>>::value);
+    STATIC_CHECK(
+        std::is_same<
+            scalr::speed_dimension,
+            scalr::dimension_product_t<scalr::length_dimension,
+                                       scalr::frequency_dimension>>::value);
 
-    CHECK(std::is_same<unnamed_dimension<1, 1, 1, 0, 0, 0, 0, 0>,
-                       dimension_product_t<length_dimension, time_dimension,
-                                           mass_dimension>>::value);
+    STATIC_CHECK(
+        std::is_same<scalr::unnamed_dimension<1, 1, 1, 0, 0, 0, 0, 0>,
+                     scalr::dimension_product_t<scalr::length_dimension,
+                                                scalr::time_dimension,
+                                                scalr::mass_dimension>>::value);
 
-    CHECK(std::is_same<force_dimension,
-                       dimension_product_t<
-                           mass_dimension, length_dimension,
-                           dimension_exponent_t<time_dimension, -2>>>::value);
+    STATIC_CHECK(
+        std::is_same<scalr::force_dimension,
+                     scalr::dimension_product_t<
+                         scalr::mass_dimension, scalr::length_dimension,
+                         scalr::dimension_exponent_t<scalr::time_dimension,
+                                                     -2>>>::value);
 
-    CHECK(std::is_same<dimensionless,
-                       dimension_exponent_t<time_dimension, 0>>::value);
+    STATIC_CHECK(std::is_same<
+                 scalr::dimensionless,
+                 scalr::dimension_exponent_t<scalr::time_dimension, 0>>::value);
 
-    CHECK(std::is_same<time_dimension,
-                       dimension_exponent_t<time_dimension, 1>>::value);
+    STATIC_CHECK(std::is_same<
+                 scalr::time_dimension,
+                 scalr::dimension_exponent_t<scalr::time_dimension, 1>>::value);
 
-    CHECK(std::is_same<dimension_product_t<time_dimension, time_dimension>,
-                       dimension_exponent_t<time_dimension, 2>>::value);
+    STATIC_CHECK(std::is_same<
+                 scalr::dimension_product_t<scalr::time_dimension,
+                                            scalr::time_dimension>,
+                 scalr::dimension_exponent_t<scalr::time_dimension, 2>>::value);
 
-    CHECK(std::is_same<frequency_dimension,
-                       dimension_exponent_t<time_dimension, -1>>::value);
+    STATIC_CHECK(
+        std::is_same<
+            scalr::frequency_dimension,
+            scalr::dimension_exponent_t<scalr::time_dimension, -1>>::value);
 
-    CHECK(std::is_same<
-          dimension_product_t<dimension_exponent_t<time_dimension, -2>,
-                              length_dimension>,
-          acceleration_dimension>::value);
+    STATIC_CHECK(
+        std::is_same<scalr::dimension_product_t<
+                         scalr::dimension_exponent_t<scalr::time_dimension, -2>,
+                         scalr::length_dimension>,
+                     scalr::acceleration_dimension>::value);
 
-    CHECK(
-        std::is_same<power_dimension,
-                     dimension_product_t<electric_current_dimension,
-                                         electric_potential_dimension>>::value);
+    STATIC_CHECK(std::is_same<scalr::power_dimension,
+                              scalr::dimension_product_t<
+                                  scalr::electric_current_dimension,
+                                  scalr::electric_potential_dimension>>::value);
   }
 }
 
-
 TEST_CASE("Units") {
   SECTION("Unit Arithmetic") {
-    CHECK(std::is_same<make_unit_t<time_dimension, std::ratio<1>>,
-                       unit_inverse_t<make_unit_t<frequency_dimension,
-                                                  std::ratio<1>>>>::value);
+    STATIC_CHECK(
+        std::is_same<scalr::make_unit_t<scalr::time_dimension, std::ratio<1>>,
+                     scalr::unit_inverse_t<scalr::make_unit_t<
+                         scalr::frequency_dimension, std::ratio<1>>>>::value);
 
-    CHECK(std::is_same<make_unit_t<time_dimension, std::ratio<2, 5>>,
-                       unit_inverse_t<make_unit_t<frequency_dimension,
-                                                  std::ratio<5, 2>>>>::value);
+    STATIC_CHECK(std::is_same<
+                 scalr::make_unit_t<scalr::time_dimension, std::ratio<2, 5>>,
+                 scalr::unit_inverse_t<scalr::make_unit_t<
+                     scalr::frequency_dimension, std::ratio<5, 2>>>>::value);
 
-    CHECK(std::is_same<
-          make_unit_t<speed_dimension>,
-          unit_product_t<make_unit_t<frequency_dimension, std::kilo>,
-                         make_unit_t<length_dimension, std::milli>>>::value);
+    STATIC_CHECK(std::is_same<
+                 scalr::make_unit_t<scalr::speed_dimension>,
+                 scalr::unit_product_t<
+                     scalr::make_unit_t<scalr::frequency_dimension, std::kilo>,
+                     scalr::make_unit_t<scalr::length_dimension, std::milli>>>::
+                     value);
 
-    CHECK(std::is_same<
-          make_unit_t<area_dimension>,
-          unit_exponent_t<make_unit_t<length_dimension, std::ratio<1>>,
-                          2>>::value);
+    STATIC_CHECK(std::is_same<
+                 scalr::make_unit_t<scalr::area_dimension>,
+                 scalr::unit_exponent_t<
+                     scalr::make_unit_t<scalr::length_dimension, std::ratio<1>>,
+                     2>>::value);
 
-    CHECK(std::is_same<
-          make_unit_t<time_dimension, std::ratio<1, 10>>,
-          unit_sum_t<make_unit_t<time_dimension, std::ratio<5, 2>>,
-                     make_unit_t<time_dimension, std::ratio<2, 5>>>>::value);
+    STATIC_CHECK(
+        std::is_same<
+            scalr::make_unit_t<scalr::time_dimension, std::ratio<1, 10>>,
+            scalr::unit_sum_t<
+                scalr::make_unit_t<scalr::time_dimension, std::ratio<5, 2>>,
+                scalr::make_unit_t<scalr::time_dimension, std::ratio<2, 5>>>>::
+            value);
   }
 }
 
 TEST_CASE("Quantities") {
+  SECTION("Quantity Common Type") {
+    STATIC_CHECK(
+        std::is_same<
+            scalr::quantity<double, scalr::unit::seconds>,
+            std::common_type_t<scalr::quantity<double, scalr::unit::seconds>,
+                               scalr::quantity<double, scalr::unit::seconds>>>::
+            value);
+    STATIC_CHECK(
+        std::is_same<scalr::quantity<double, scalr::unit::seconds>,
+                     std::common_type_t<
+                         scalr::quantity<double, scalr::unit::seconds>,
+                         scalr::quantity<int, scalr::unit::seconds>>>::value);
+    STATIC_CHECK(
+        std::is_same<scalr::quantity<int, scalr::unit::seconds>,
+                     std::common_type_t<
+                         scalr::quantity<int, scalr::unit::seconds>,
+                         scalr::quantity<int, scalr::unit::seconds>>>::value);
+    STATIC_CHECK(std::is_same<
+                 scalr::quantity<int, scalr::unit::milliseconds>,
+                 std::common_type_t<
+                     scalr::quantity<int, scalr::unit::seconds>,
+                     scalr::quantity<int, scalr::unit::milliseconds>>>::value);
+    STATIC_CHECK(
+        std::is_same<
+            scalr::quantity<int, scalr::time_unit<std::ratio<1, 6>>>,
+            std::common_type_t<
+                scalr::quantity<int, scalr::time_unit<std::ratio<1, 3>>>,
+                scalr::quantity<int, scalr::time_unit<std::ratio<1, 2>>>>>::
+            value);
+    STATIC_CHECK(
+        std::is_same<
+            scalr::quantity<double, scalr::time_unit<std::ratio<1, 6>>>,
+            std::common_type_t<
+                scalr::quantity<int, scalr::time_unit<std::ratio<1, 3>>>,
+                scalr::quantity<double, scalr::time_unit<std::ratio<1, 2>>>>>::
+            value);
+  }
+  // SECTION("Comparison") { CHECK(scalr::hours{0.5} < scalr::hours{1}); }
+}
+
+TEST_CASE("Named Quantities") {
   SECTION("Duration") {
     scalr::hours h{1};
 
@@ -146,21 +211,18 @@ TEST_CASE("Quantities") {
   }
 
   SECTION("Electric Current") {
-
     CHECK(4.2_mA == 4200_uA);
     CHECK(42_mA == 0.042_A);
     CHECK(4000_mA == 4_A);
   }
 
   SECTION("Electric Potential") {
-
     CHECK(4.2_mV == 4200_uV);
     CHECK(42_mV == 0.042_V);
     CHECK(4000_mV == 4_V);
   }
 
   SECTION("Power") {
-
     CHECK(1_A * 1_V == 1_W);
     CHECK(100_mA * 12_V == 1.2_W);
 
@@ -204,5 +266,4 @@ TEST_CASE("Quantities") {
 
     CHECK(f == scalr::newtons(1.2));
   }
-
 }

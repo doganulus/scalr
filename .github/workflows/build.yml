@@ -1,17 +1,28 @@
-name: Run unit tests for Scalr
+name: Test Scalr
 
 on: push
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    container:
-      image: conanio/${{matrix.tag}}:latest
-      options: --user root
+    container: gcc:${{matrix.tag}}
     strategy:
       matrix:
-        tag: [gcc5, gcc6, gcc7, gcc8, gcc9, gcc10, gcc11]
+        tag: [5, 6, 7, 8, 9, 10, 11, 12]
+        cmake: ["3.25.2"]
     steps:
       - uses: actions/checkout@v3
+
+      - name: Install CMake from source
+        run: |
+          curl -fsSL https://github.com/Kitware/CMake/releases/download/v${{matrix.cmake}}/cmake-${{matrix.cmake}}-linux-x86_64.sh > cmake_install.sh
+          sh cmake_install.sh --skip-license
+
+      - name: Install Catch2v3 from source
+        run: |
+          git clone --depth 1 --branch v3.3.1 https://github.com/catchorg/Catch2.git /tmp/catch2
+          cmake -S/tmp/catch2 -B/tmp/catch2/build -DBUILD_TESTING=OFF -DCATCH_INSTALL_DOCS=OFF
+          cmake --build /tmp/catch2/build/ --target install -j$(nproc)
+
       - name: Run unit tests
         run: make test

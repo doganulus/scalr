@@ -5,26 +5,24 @@ on: push
 jobs:
   test:
     runs-on: ubuntu-latest
-    container: gcc:${{matrix.tag}}
+    container: gcc:${{matrix.gcc_version}}
     strategy:
       matrix:
-        tag: [5, 6, 7, 8, 9, 10, 11, 12]
-        cmake: ["3.25.2"]
+        gcc_version: [5, 6, 7, 8, 9, 10, 11, 12]
+        cmake_version: ["3.25.2"]
+        catch2_version: ["3.3.1"]
+
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install CMake from source
+      - name: Install CMake binary release
         run: |
-          wget https://github.com/Kitware/CMake/releases/download/v3.25.2/cmake-3.25.2-linux-x86_64.tar.gz -O cmake_src.tar.gz
-          tar xzf cmake_src.tar.gz
-          cd cmake_src
-          ./bootstrap
-          make
-          make install
+          curl -L https://github.com/Kitware/CMake/releases/download/v${{matrix.cmake_version}}/cmake-${{matrix.cmake_version}}-linux-x86_64.sh > /tmp/cmake_install.sh
+          sh /tmp/cmake_install.sh --skip-license
 
-      - name: Install Catch2v3 from source
+      - name: Build and install Catch2v3 from source
         run: |
-          git clone --depth 1 --branch v3.3.1 https://github.com/catchorg/Catch2.git /tmp/catch2
+          git clone --depth 1 --branch v${{matrix.catch2_version}} https://github.com/catchorg/Catch2.git /tmp/catch2
           cmake -S/tmp/catch2 -B/tmp/catch2/build -DBUILD_TESTING=OFF -DCATCH_INSTALL_DOCS=OFF
           cmake --build /tmp/catch2/build/ --target install -j$(nproc)
 

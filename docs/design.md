@@ -1,13 +1,13 @@
 # Core Design
 
-Scalr has three levels of hierarchy
+Core library design is divided into three conceptual levels: Dimension types, Unit types, and Quantity class.
 
-## Base system and dimensions
+## Dimension types
 
-Scalr library is based on the International System (SI) of Units. The SI defines 7 base dimensions for physical quantities (time, length, mass, temperature, electric current, amount of substance, and luminous intensity) with a base unit for each (second, meter, kilogram, kelvin, ampere, mole, and candela). Moreover Scalr considers "angular length" as the 8th independent dimension with a unit of arcmeters (obviously non-standard).
+The Scalr library is built upon the International System (SI) of Units, which specifies 7 fundamental dimensions for physical quantities - time, length, mass, temperature, electric current, amount of substance, and luminous intensity - each with its own base unit (second, meter, kilogram, kelvin, ampere, mole, and candela). Additionally, Scalr recognizes _angular length_ as an independent 8th dimension with the unit of arcmeters, which is not a standard SI unit.
 
 ```c++
-// System: 7 Base SI dimensions + angular length
+// System: 7 fundamental SI dimensions + angular length
 template <intmax_t T, intmax_t L, intmax_t M, intmax_t I, intmax_t K,
           intmax_t N, intmax_t J, intmax_t R>
 struct system_signature {
@@ -22,7 +22,7 @@ struct system_signature {
 };
 ```
 
-A dimension is a type having the system signature as a member type. The default dimension is called `unnamed_dimension`, which can handle arbitrary combinations of base system.
+In Scalr, a dimension is represented as a type that having a system_signature. The default dimension type is called `unnamed_dimension`, which is a struct template that can handle various combinations of fundamental dimensions.
 
 ```c++
 template <intmax_t T, intmax_t L, intmax_t M, intmax_t I, intmax_t K,
@@ -32,7 +32,7 @@ struct unnamed_dimension {
 };
 ```
 
-Similarly a named dimension must have a fixed `signature` and Scalr provides a number of named dimensions 
+In contrast, a named dimension has a fixed `system_signature`. Scalr offers several named dimensions, including...
 
 ```c++
 struct time_dimension { // in scalr/named_quantity/time.hpp
@@ -46,7 +46,7 @@ struct force_dimension { // in scalr/named_quantity/force.hpp
 };
 ```
 
-The arithmetic between dimension types is done with
+Scalr employs template metaprogramming with struct templates to support arithmetic operations for dimensions:
 
 ```c++
 scalr::make_dimension_t<T, L, M, I, K, N, J, R>
@@ -56,9 +56,9 @@ scalr::dimension_exponent_t<Dimension, k>
 scalr::dimension_equal<Dimension1, Dimension2>::value
 ```
 
-## Units
+## Unit types
 
-A unit is a type having a dimension and a ratio as member types. The default dimension is called `unnamed_unit`, which can handle arbitrary combinations of a dimension and a ratio.
+In Scalr, a unit is represented as a type that contains two member types: a dimension and a ratio. The default unit type is called `unnamed_unit`, which is a struct template that can handle various combinations of dimensions and ratios.
 
 ```c++
 template <class Dimension, class Ratio = std::ratio<1>>
@@ -68,9 +68,11 @@ struct unnamed_unit {
 };
 ```
 
+In contrast, a named unit has a fixed `dimension` and a `ratio`. Scalr offers several named units, including...
+
 ```c++
 struct seconds { // defined in scalr/named_quantity/time.hpp
-  using dimension = time_dimension;
+  using dimension = time_dimension; // base unit: second
   using ratio = std::ratio<1>;
 };
 struct miles_per_hour {  // defined in scalr/named_quantity/speed.hpp
@@ -78,15 +80,14 @@ struct miles_per_hour {  // defined in scalr/named_quantity/speed.hpp
   using ratio = std::ratio<1397, 3125>; 
 };
 struct radians {   // defined in scalr/named_quantity/angle.hpp
-  using dimension = angle_dimension;
+  using dimension = angle_dimension; 
   using ratio = std::ratio<99532, 625378>;  // 1/(2*PI) Approx.
 };
 ```
 
 There is no other structure for the base unit of a dimension. It is implicit that the unit with `ratio<1>` is the base unit. 
 
-
-The arithmetic between unit types is done with 
+Scalr employs template metaprogramming with struct templates to support arithmetic operations for units:
 
 ```c++
 scalr::make_unit_t<Dimension, Ratio>
@@ -108,7 +109,7 @@ struct quantity;
 
 The quantity class supports basic comparison and arithmetic operations, which casts the result into a derived quantity type depending on the operand or causes a compilation error if the operation is illegal. 
 
-## Named Quantities and Helpers
+### Named Quantities and Helpers
 
 On the top of these mechanisms, Scalr provides a support for named quantities for a better user experience. The first level contains aliases for `quantity` class for each named quantity.
 

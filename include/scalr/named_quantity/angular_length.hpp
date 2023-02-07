@@ -16,8 +16,6 @@
 #include "scalr/quantity.hpp"
 #include "scalr/unit.hpp"
 
-#pragma once
-
 namespace scalr {
 
 struct angular_length_dimension {

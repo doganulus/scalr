@@ -6,6 +6,8 @@ add_executable(
     scalr_core.test.cpp
 )
 
+target_compile_features(scalr_tests INTERFACE cxx_std_14)
+
 target_link_libraries(
   scalr_tests
     PUBLIC

@@ -1,13 +1,15 @@
 /*
  * Scalr: Physical quantity/unit representation & manipulation library
  *
- * Copyright (c) 2020 Dogan Ulus
+ * Copyright (c) 2020-2023 Dogan Ulus
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-#pragma once
+#ifndef SCALR_NAMED_QUANTITY_ANGULAR_LENGTH_HPP
+#define SCALR_NAMED_QUANTITY_ANGULAR_LENGTH_HPP
+
 #include <ratio>
 
 #include "scalr/dimension.hpp"
@@ -48,6 +50,8 @@ template <typename Ratio>
 struct make<angular_length_dimension, Ratio> {
   using type = scalr::angular_length_unit<Ratio>;
 };
-}  // namespace unit
 
+}  // namespace unit
 }  // namespace scalr
+
+#endif

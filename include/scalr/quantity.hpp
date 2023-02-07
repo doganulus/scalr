@@ -1,13 +1,14 @@
 /*
  * Scalr: Physical quantity/unit value_typeresentation & manipulation library
  *
- * Copyright (c) 2020 Dogan Ulus
+ * Copyright (c) 2020-2023 Dogan Ulus
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-#pragma once
+#ifndef SCALR_QUANTITY_HPP
+#define SCALR_QUANTITY_HPP
 
 #include <limits>
 #include <ratio>
@@ -441,3 +442,5 @@ template <class... Q>
 using common_type_t = typename common_type<Q...>::type;
 
 }  // namespace std
+
+#endif

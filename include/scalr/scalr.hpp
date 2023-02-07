@@ -32,6 +32,7 @@
 #include "scalr/named_quantity/mass.hpp"
 #include "scalr/named_quantity/moment_of_inertia.hpp"
 #include "scalr/named_quantity/pop.hpp"
+#include "scalr/named_quantity/power.hpp"
 #include "scalr/named_quantity/snap.hpp"
 #include "scalr/named_quantity/speed.hpp"
 #include "scalr/named_quantity/temperature.hpp"

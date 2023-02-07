@@ -1,13 +1,15 @@
 /*
  * Scalr: Physical quantity/unit representation & manipulation library
  *
- * Copyright (c) 2020 Dogan Ulus
+ * Copyright (c) 2020-2023 Dogan Ulus
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-#pragma once
+#ifndef SCALR_DIMENSION_HPP
+#define SCALR_DIMENSION_HPP
+
 #include <cstdint>
 #include <type_traits>
 
@@ -121,3 +123,5 @@ template <class D1, class D2>
 using dimension_equal = typename dimension::equal<D1, D2>;
 
 }  // namespace scalr
+
+#endif

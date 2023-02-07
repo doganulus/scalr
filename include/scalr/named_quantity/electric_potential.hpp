@@ -1,15 +1,15 @@
 /*
  * Scalr: Physical quantity/unit representation & manipulation library
  *
- * Copyright (c) 2020 Dogan Ulus
+ * Copyright (c) 2020-2023 Dogan Ulus
  * Copyright (c) 2023 Dmitriy Purgin
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-
-#pragma once
+#ifndef SCALR_NAMED_QUANTITY_ELECTRIC_POTENTIAL_HPP
+#define SCALR_NAMED_QUANTITY_ELECTRIC_POTENTIAL_HPP
 
 #include <ratio>
 
@@ -81,5 +81,8 @@ constexpr millivolts operator""_mV(unsigned long long value) {
   return millivolts{value};
 }
 constexpr volts operator""_V(unsigned long long value) { return volts{value}; }
+
 }  // namespace literals
 }  // namespace scalr
+
+#endif

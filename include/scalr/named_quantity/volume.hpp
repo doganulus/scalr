@@ -1,13 +1,15 @@
 /*
  * Scalr: Physical quantity/unit representation & manipulation library
  *
- * Copyright (c) 2020 Dogan Ulus
+ * Copyright (c) 2020-2023 Dogan Ulus
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-#pragma once
+#ifndef SCALR_NAMED_QUANTITY_VOLUME_HPP
+#define SCALR_NAMED_QUANTITY_VOLUME_HPP
+
 #include <ratio>
 
 #include "scalr/dimension.hpp"
@@ -132,4 +134,5 @@ std::ostream& operator<<(
   return os;
 }
 
+#endif
 #endif

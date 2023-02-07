@@ -1,20 +1,20 @@
 /*
  * Scalr: Physical quantity/unit representation & manipulation library
  *
- * Copyright (c) 2020 Dogan Ulus
+ * Copyright (c) 2020-2023 Dogan Ulus
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-#pragma once
+#ifndef SCALR_NAMED_QUANTITY_ELECTRIC_CURRENT_HPP
+#define SCALR_NAMED_QUANTITY_ELECTRIC_CURRENT_HPP
+
 #include <ratio>
 
 #include "scalr/dimension.hpp"
 #include "scalr/quantity.hpp"
 #include "scalr/unit.hpp"
-
-#pragma once
 
 namespace scalr {
 
@@ -46,18 +46,18 @@ struct make<0, 0, 0, 1, 0, 0, 0, 0> {
 namespace unit {
 
 struct microampers {
-    using dimension = electric_current_dimension;
-    using ratio = std::ratio<1, 1000000>;
+  using dimension = electric_current_dimension;
+  using ratio = std::ratio<1, 1000000>;
 };
 
 struct milliampers {
-    using dimension = electric_current_dimension;
-    using ratio = std::ratio<1, 1000>;
+  using dimension = electric_current_dimension;
+  using ratio = std::ratio<1, 1000>;
 };
 
 struct ampers {
-    using dimension = electric_current_dimension;
-    using ratio = std::ratio<1>;
+  using dimension = electric_current_dimension;
+  using ratio = std::ratio<1>;
 };
 
 template <typename Ratio>
@@ -67,17 +67,17 @@ struct make<electric_current_dimension, Ratio> {
 
 template <>
 struct make<electric_current_dimension, std::ratio<1, 1000000>> {
-    using type = microampers;
+  using type = microampers;
 };
 
 template <>
 struct make<electric_current_dimension, std::ratio<1, 1000>> {
-    using type = milliampers;
+  using type = milliampers;
 };
 
 template <>
 struct make<electric_current_dimension, std::ratio<1>> {
-    using type = ampers;
+  using type = ampers;
 };
 
 }  // namespace unit
@@ -89,16 +89,14 @@ using ampers = electric_current<double, std::ratio<1>>;
 namespace literals {
 
 constexpr microampers operator""_uA(long double value) {
-    return microampers{value};
+  return microampers{value};
 }
 
 constexpr milliampers operator""_mA(long double value) {
-    return milliampers{value};
+  return milliampers{value};
 }
 
-constexpr ampers operator""_A(long double value) {
-    return ampers{value};
-}
+constexpr ampers operator""_A(long double value) { return ampers{value}; }
 
 constexpr microampers operator""_uA(unsigned long long value) {
   return microampers{value};
@@ -112,6 +110,7 @@ constexpr ampers operator""_A(unsigned long long value) {
   return ampers{value};
 }
 
-} // namespace literals
-
+}  // namespace literals
 }  // namespace scalr
+
+#endif

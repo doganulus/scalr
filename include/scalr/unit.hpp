@@ -1,13 +1,15 @@
 /*
  * Scalr: Physical quantity/unit representation & manipulation library
  *
- * Copyright (c) 2020 Dogan Ulus
+ * Copyright (c) 2020-2023 Dogan Ulus
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-#pragma once
+#ifndef SCALR_UNIT_HPP
+#define SCALR_UNIT_HPP
+
 #include <ratio>
 #include <type_traits>
 
@@ -201,3 +203,5 @@ template <class U1, class U2>
 using unit_equal = typename unit::equal<U1, U2>;
 
 }  // namespace scalr
+
+#endif

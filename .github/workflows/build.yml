@@ -10,16 +10,13 @@ jobs:
       fail-fast: false
       matrix:
         gcc_version: [5, 6, 7, 8, 9, 10, 11, 12, 13]
-        cmake_version: ["3.22.6", "3.27.9"]
         catch2_version: ["3.4.0"]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install CMake binary release
-        run: |
-          curl -L https://github.com/Kitware/CMake/releases/download/v${{matrix.cmake_version}}/cmake-${{matrix.cmake_version}}-linux-x86_64.sh > /tmp/cmake_install.sh
-          sh /tmp/cmake_install.sh --skip-license --prefix=/
+        run: apt update && apt install -y cmake
 
       - name: Build and install Catch2v3 from source
         run: |

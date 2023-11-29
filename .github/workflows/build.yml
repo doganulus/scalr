@@ -3,13 +3,40 @@ name: Test Scalr
 on: push
 
 jobs:
-  test:
+  test-older-gcc:
     runs-on: ubuntu-latest
     container: gcc:${{matrix.gcc_version}}
     strategy:
       fail-fast: false
       matrix:
-        gcc_version: [5, 6, 7, 8, 9, 10, 11, 12, 13]
+        gcc_version: [5, 6, 7, 8, 9, 10, 11]
+        cmake_version: ["3.22.6"]
+        catch2_version: ["3.4.0"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install CMake binary release
+        run: |
+          curl -L https://github.com/Kitware/CMake/releases/download/v${{matrix.cmake_version}}/cmake-${{matrix.cmake_version}}-linux-x86_64.sh > /tmp/cmake_install.sh
+          sh /tmp/cmake_install.sh --skip-license --prefix=/
+
+      - name: Build and install Catch2v3 from source
+        run: |
+          git clone --depth 1 --branch v${{matrix.catch2_version}} https://github.com/catchorg/Catch2.git /tmp/catch2
+          cmake -S/tmp/catch2 -B/tmp/catch2/build -DBUILD_TESTING=OFF -DCATCH_INSTALL_DOCS=OFF
+          cmake --build /tmp/catch2/build/ --target install -j$(nproc)
+
+      - name: Run unit tests
+        run: make test
+
+  test-newer-gcc:
+    runs-on: ubuntu-latest
+    container: gcc:${{matrix.gcc_version}}
+    strategy:
+      fail-fast: false
+      matrix:
+        gcc_version: [12, 13]
         catch2_version: ["3.4.0"]
 
     steps:

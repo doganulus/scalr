@@ -230,6 +230,12 @@ TEST_CASE("Named Quantities") {
     CHECK(80_kg * 9.81_mps2 * 3_m / 5_s == 470.88_W);
   }
 
+  SECTION("Volume") {
+    CHECK(1_l == 1000_ml);
+    CHECK(1000_l == 1_m3);
+    CHECK(0.5_l + 250_ml == 0.75_l);
+  }
+
   SECTION("Quantity Conversion") {
     scalr::seconds secs{12};
     scalr::minutes mins{4};

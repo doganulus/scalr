@@ -50,12 +50,12 @@ struct cubic_meters {
 
 struct liters {
   using dimension = volume_dimension;
-  using ratio = std::ratio<100>;
+  using ratio = std::milli;
 };
 
 struct milliliters {
   using dimension = volume_dimension;
-  using ratio = std::ratio<10000>;
+  using ratio = std::micro;
 };
 
 template <typename Ratio>
@@ -69,20 +69,20 @@ struct make<volume_dimension, std::ratio<1>> {
 };
 
 template <>
-struct make<volume_dimension, std::ratio<1, 1000>> {
+struct make<volume_dimension, std::milli> {
   using type = liters;
 };
 
 template <>
-struct make<volume_dimension, std::ratio<1, 1000000>> {
+struct make<volume_dimension, std::micro> {
   using type = milliliters;
 };
 
 }  // namespace unit
 
 using cubic_meters = volume<double, std::ratio<1>>;
-using liters = volume<double, std::ratio<1, 1000>>;
-using milliliters = volume<double, std::ratio<1, 1000000>>;
+using liters = volume<double, std::milli>;
+using milliliters = volume<double, std::micro>;
 
 namespace literals {
 

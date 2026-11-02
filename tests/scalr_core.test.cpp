@@ -67,6 +67,12 @@ TEST_CASE("Dimensions") {
                          scalr::length_dimension>,
                      scalr::acceleration_dimension>::value);
 
+    STATIC_CHECK(std::is_same<scalr::pressure_dimension,
+                              scalr::dimension_product_t<
+                                  scalr::force_dimension,
+                                  scalr::dimension_exponent_t<
+                                      scalr::area_dimension, -1>>>::value);
+
     STATIC_CHECK(std::is_same<scalr::power_dimension,
                               scalr::dimension_product_t<
                                   scalr::electric_current_dimension,
@@ -228,6 +234,14 @@ TEST_CASE("Named Quantities") {
 
     CHECK(1_mps * 1_N == 1_W);
     CHECK(80_kg * 9.81_mps2 * 3_m / 5_s == 470.88_W);
+  }
+
+  SECTION("Pressure") {
+    CHECK(1_bar == 100000_Pa);
+    CHECK(1_bar == 100_kPa);
+    CHECK(150_bar == 15000_kPa);
+    CHECK(1000_N / 1_m2 == 1_kPa);
+    CHECK(0.5_bar + 50_kPa == 1_bar);
   }
 
   SECTION("Volume") {
